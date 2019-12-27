@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_22_232852) do
+ActiveRecord::Schema.define(version: 2019_12_27_130349) do
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -43,6 +43,17 @@ ActiveRecord::Schema.define(version: 2019_12_22_232852) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer "participant_id", null: false
     t.integer "user_id", null: false
@@ -62,6 +73,8 @@ ActiveRecord::Schema.define(version: 2019_12_22_232852) do
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
+    t.boolean "pending", default: true
     t.index ["tlk_id"], name: "index_participants_on_tlk_id"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
@@ -72,6 +85,8 @@ ActiveRecord::Schema.define(version: 2019_12_22_232852) do
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
+    t.index ["slug"], name: "index_tlks_on_slug", unique: true
     t.index ["user_id"], name: "index_tlks_on_user_id"
   end
 

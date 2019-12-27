@@ -3,7 +3,8 @@ class MessagesController < ApplicationController
     message = Message.new(message_params)
     message.user = current_user
     message.save!
-    redirect_to "/tlk/#{params['message']['tlk_id']}"
+    tlk = Tlk.friendly.find(params['message']['tlk_id'])
+    redirect_to "/tlk/#{tlk[:slug]}"
   end
 
   private
